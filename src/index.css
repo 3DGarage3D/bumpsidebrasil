@@ -112,3 +112,19 @@ All colors MUST be HSL.
     font-feature-settings: "cv11", "ss01";
   }
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print\:block,
+  .print\:block * {
+    visibility: visible;
+  }
+  .print\:block {
+    position: fixed !important;
+    inset: 0 !important;
+    background: white !important;
+    overflow: visible !important;
+  }
+}
