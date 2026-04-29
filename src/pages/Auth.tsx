@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Package } from "lucide-react";
 import { toast } from "sonner";
+import logo from "@/assets/logo-bumpside.png";
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -43,11 +43,11 @@ export default function Auth() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-subtle p-4">
       <Card className="w-full max-w-md p-6 shadow-elegant-md">
-        <div className="flex items-center gap-2 mb-6 justify-center">
-          <div className="h-10 w-10 rounded-lg bg-primary text-primary-foreground flex items-center justify-center">
-            <Package className="h-5 w-5" />
-          </div>
-          <h1 className="text-xl font-bold">Estoque Pro</h1>
+        <div className="flex flex-col items-center gap-2 mb-6">
+          <img src={logo} alt="BUMPSIDE BRASIL" className="h-16 w-auto object-contain" />
+          <p className="text-xs font-medium tracking-[0.3em] text-muted-foreground uppercase">
+            Estoque
+          </p>
         </div>
 
         <Tabs defaultValue="signin">
