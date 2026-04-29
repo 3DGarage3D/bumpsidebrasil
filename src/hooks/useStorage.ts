@@ -1,27 +1,24 @@
 import { useEffect, useState } from "react";
-import { storage } from "@/lib/storage";
+import { ensureLoaded, storage } from "@/lib/storage";
 
-type StorageGetter<T> = () => T;
+type Key = "products" | "categories" | "suppliers" | "customers" | "orders" | "movements";
 
-function useStored<T>(getter: StorageGetter<T>): T {
+function useStored<T>(key: Key, getter: () => T): T {
   const [value, setValue] = useState<T>(getter);
 
   useEffect(() => {
+    ensureLoaded(key);
     const handler = () => setValue(getter());
     window.addEventListener("estoque:update", handler);
-    window.addEventListener("storage", handler);
-    return () => {
-      window.removeEventListener("estoque:update", handler);
-      window.removeEventListener("storage", handler);
-    };
-  }, [getter]);
+    return () => window.removeEventListener("estoque:update", handler);
+  }, [key, getter]);
 
   return value;
 }
 
-export const useProducts = () => useStored(storage.getProducts);
-export const useCategories = () => useStored(storage.getCategories);
-export const useSuppliers = () => useStored(storage.getSuppliers);
-export const useCustomers = () => useStored(storage.getCustomers);
-export const useOrders = () => useStored(storage.getOrders);
-export const useMovements = () => useStored(storage.getMovements);
+export const useProducts = () => useStored("products", storage.getProducts);
+export const useCategories = () => useStored("categories", storage.getCategories);
+export const useSuppliers = () => useStored("suppliers", storage.getSuppliers);
+export const useCustomers = () => useStored("customers", storage.getCustomers);
+export const useOrders = () => useStored("orders", storage.getOrders);
+export const useMovements = () => useStored("movements", storage.getMovements);
