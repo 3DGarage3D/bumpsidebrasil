@@ -8,6 +8,7 @@ import {
   History,
   BarChart3,
 } from "lucide-react";
+import logo from "@/assets/logo-bumpside.png";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import {
@@ -61,17 +62,18 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border px-4 py-4">
-        <div className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-primary shadow-elegant-md">
-            <Package className="h-5 w-5 text-primary-foreground" />
+        {collapsed ? (
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground">
+            <Package className="h-5 w-5 text-background" />
           </div>
-          {!collapsed && (
-            <div className="flex flex-col leading-tight">
-              <span className="text-sm font-bold text-foreground">Estoque Pro</span>
-              <span className="text-[11px] text-muted-foreground">Gestão da loja</span>
-            </div>
-          )}
-        </div>
+        ) : (
+          <div className="flex flex-col items-center gap-1">
+            <img src={logo} alt="BUMPSIDE BRASIL" className="h-10 w-auto object-contain" />
+            <span className="text-[10px] font-medium tracking-widest text-muted-foreground uppercase">
+              Estoque
+            </span>
+          </div>
+        )}
       </SidebarHeader>
 
       <SidebarContent className="px-2 py-3">
