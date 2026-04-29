@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "./pages/NotFound.tsx";
 import { AppLayout } from "./components/AppLayout";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Produtos from "./pages/Produtos";
 import Pedidos from "./pages/Pedidos";
@@ -23,15 +25,18 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route element={<AppLayout />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/produtos" element={<Produtos />} />
-            <Route path="/pedidos" element={<Pedidos />} />
-            <Route path="/clientes" element={<Clientes />} />
-            <Route path="/categorias" element={<Categorias />} />
-            <Route path="/fornecedores" element={<Fornecedores />} />
-            <Route path="/movimentacao" element={<Movimentacao />} />
-            <Route path="/relatorios" element={<Relatorios />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route element={<ProtectedRoute />}>
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/produtos" element={<Produtos />} />
+              <Route path="/pedidos" element={<Pedidos />} />
+              <Route path="/clientes" element={<Clientes />} />
+              <Route path="/categorias" element={<Categorias />} />
+              <Route path="/fornecedores" element={<Fornecedores />} />
+              <Route path="/movimentacao" element={<Movimentacao />} />
+              <Route path="/relatorios" element={<Relatorios />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
