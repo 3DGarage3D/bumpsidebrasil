@@ -163,7 +163,7 @@ export default function Produtos() {
           />
         </Card>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+        <Card className="divide-y divide-border shadow-elegant-sm overflow-hidden">
           {filtered.map((p) => {
             const cat = categories.find((c) => c.id === p.categoryId);
             const low = p.stock <= p.minStock;
@@ -174,71 +174,75 @@ export default function Produtos() {
               .map((w) => w[0]?.toUpperCase())
               .join("");
             return (
-              <Card
+              <div
                 key={p.id}
-                className="group relative flex flex-col overflow-hidden shadow-elegant-sm hover:shadow-elegant-md transition-all hover:-translate-y-0.5"
+                className="flex items-center gap-3 p-3 hover:bg-accent/40 transition-colors"
               >
-                {/* Square thumbnail */}
-                <div className="relative aspect-square bg-gradient-to-br from-muted to-accent flex items-center justify-center">
-                  <span className="text-3xl font-bold text-muted-foreground/60 select-none">
-                    {initials || <Package className="h-10 w-10" />}
-                  </span>
-                  {low && (
-                    <div className="absolute top-2 left-2 flex items-center gap-1 rounded-full bg-destructive px-2 py-0.5 text-[10px] font-semibold text-destructive-foreground shadow-sm">
-                      <AlertTriangle className="h-3 w-3" />
-                      Baixo
-                    </div>
+                {/* Small square icon */}
+                <div className="relative h-12 w-12 shrink-0 rounded-md bg-gradient-to-br from-muted to-accent flex items-center justify-center">
+                  {initials ? (
+                    <span className="text-sm font-bold text-muted-foreground/80 select-none">
+                      {initials}
+                    </span>
+                  ) : (
+                    <Package className="h-5 w-5 text-muted-foreground" />
                   )}
-                  {cat && (
-                    <Badge variant="secondary" className="absolute top-2 right-2 text-[10px]">
-                      {cat.name}
-                    </Badge>
-                  )}
-                  <div className="absolute bottom-2 right-2 rounded-md bg-background/90 backdrop-blur px-2 py-0.5 text-[11px] font-semibold text-foreground shadow-sm">
-                    {p.stock} un
+                </div>
+
+                {/* Main info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="font-semibold text-sm text-foreground truncate">
+                      {p.name}
+                    </h3>
+                    {cat && (
+                      <Badge variant="secondary" className="text-[10px] h-5">
+                        {cat.name}
+                      </Badge>
+                    )}
+                    {low && (
+                      <Badge variant="destructive" className="text-[10px] h-5 gap-1">
+                        <AlertTriangle className="h-3 w-3" />
+                        Baixo
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-0.5">
+                    <span className="font-mono truncate">{p.sku}</span>
+                    <span className="font-mono hidden sm:inline truncate">{p.barcode}</span>
                   </div>
                 </div>
 
-                {/* Body */}
-                <div className="p-3 flex flex-col gap-1 flex-1">
-                  <h3 className="font-semibold text-sm text-foreground line-clamp-2 leading-tight min-h-[2.5rem]">
-                    {p.name}
-                  </h3>
-                  <p className="text-[10px] text-muted-foreground font-mono truncate">{p.sku}</p>
-                  <p className="text-base font-bold text-primary mt-1">{formatBRL(p.salePrice)}</p>
+                {/* Stock */}
+                <div className="hidden sm:block text-right shrink-0 w-16">
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Estoque</p>
+                  <p className={`text-sm font-semibold ${low ? "text-destructive" : "text-foreground"}`}>
+                    {p.stock}
+                  </p>
+                </div>
+
+                {/* Price */}
+                <div className="text-right shrink-0 w-24">
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Preço</p>
+                  <p className="text-sm font-bold text-primary">{formatBRL(p.salePrice)}</p>
                 </div>
 
                 {/* Actions */}
-                <div className="flex border-t border-border">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="flex-1 rounded-none gap-1 text-xs h-9"
-                    onClick={() => printLabel(p)}
-                  >
-                    <Printer className="h-3.5 w-3.5" /> Etiqueta
+                <div className="flex items-center gap-0.5 shrink-0">
+                  <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => printLabel(p)} title="Imprimir etiqueta">
+                    <Printer className="h-3.5 w-3.5" />
                   </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="rounded-none border-l border-border h-9 px-3"
-                    onClick={() => openEdit(p)}
-                  >
+                  <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => openEdit(p)} title="Editar">
                     <Pencil className="h-3.5 w-3.5" />
                   </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="rounded-none border-l border-border h-9 px-3"
-                    onClick={() => remove(p.id)}
-                  >
+                  <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => remove(p.id)} title="Excluir">
                     <Trash2 className="h-3.5 w-3.5 text-destructive" />
                   </Button>
                 </div>
-              </Card>
+              </div>
             );
           })}
-        </div>
+        </Card>
       )}
 
       <Dialog open={open} onOpenChange={setOpen}>
