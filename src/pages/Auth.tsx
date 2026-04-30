@@ -14,6 +14,8 @@ export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showForgot, setShowForgot] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -38,6 +40,18 @@ export default function Auth() {
     setLoading(false);
     if (error) return toast.error(error.message);
     toast.success("Conta criada! Verifique seu email para confirmar.");
+  };
+
+  const sendReset = async () => {
+    if (!resetEmail.trim()) return toast.error("Informe seu email");
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setLoading(false);
+    if (error) return toast.error(error.message);
+    toast.success("Enviamos um link de redefinição para o seu email.");
+    setShowForgot(false);
   };
 
   return (
@@ -68,6 +82,13 @@ export default function Auth() {
             <Button className="w-full" onClick={signIn} disabled={loading}>
               {loading ? "Entrando..." : "Entrar"}
             </Button>
+            <button
+              type="button"
+              onClick={() => { setResetEmail(email); setShowForgot(true); }}
+              className="w-full text-xs text-muted-foreground hover:text-foreground transition-colors text-center pt-1"
+            >
+              Esqueci minha senha
+            </button>
           </TabsContent>
 
           <TabsContent value="signup" className="space-y-3">
@@ -85,6 +106,30 @@ export default function Auth() {
           </TabsContent>
         </Tabs>
       </Card>
+
+      <Dialog open={showForgot} onOpenChange={setShowForgot}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Redefinir senha</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 py-2">
+            <p className="text-sm text-muted-foreground">
+              Informe seu email e enviaremos um link para criar uma nova senha.
+            </p>
+            <div>
+              <Label>Email</Label>
+              <Input
+                type="email"
+                value={resetEmail}
+                onChange={(e) => setResetEmail(e.target.value)}
+              />
+            </div>
+            <Button className="w-full" onClick={sendReset} disabled={loading}>
+              {loading ? "Enviando..." : "Enviar link"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
