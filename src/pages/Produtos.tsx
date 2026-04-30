@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Plus, Search, Pencil, Trash2, Printer, Package } from "lucide-react";
+import { Plus, Search, Pencil, Trash2, Printer, Package, AlertTriangle } from "lucide-react";
 import { useProducts, useCategories, useSuppliers } from "@/hooks/useStorage";
 import { storage, generateEAN13, generateSKU, uid, formatBRL } from "@/lib/storage";
 import type { Product } from "@/lib/types";
@@ -163,40 +163,75 @@ export default function Produtos() {
           />
         </Card>
       ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
           {filtered.map((p) => {
             const cat = categories.find((c) => c.id === p.categoryId);
             const low = p.stock <= p.minStock;
+            const initials = p.name
+              .split(" ")
+              .filter(Boolean)
+              .slice(0, 2)
+              .map((w) => w[0]?.toUpperCase())
+              .join("");
             return (
-              <Card key={p.id} className="p-4 shadow-elegant-sm hover:shadow-elegant-md transition-shadow">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-semibold text-foreground truncate">{p.name}</h3>
-                    <p className="text-xs text-muted-foreground mt-0.5">SKU {p.sku}</p>
-                    <p className="text-[11px] text-muted-foreground font-mono">{p.barcode}</p>
-                  </div>
-                  {cat && <Badge variant="secondary" className="shrink-0">{cat.name}</Badge>}
-                </div>
-                <div className="flex items-end justify-between mt-3">
-                  <div>
-                    <p className="text-xs text-muted-foreground">Preço</p>
-                    <p className="text-lg font-bold text-primary">{formatBRL(p.salePrice)}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs text-muted-foreground">Estoque</p>
-                    <Badge variant={low ? "destructive" : "secondary"}>
-                      {p.stock} un
+              <Card
+                key={p.id}
+                className="group relative flex flex-col overflow-hidden shadow-elegant-sm hover:shadow-elegant-md transition-all hover:-translate-y-0.5"
+              >
+                {/* Square thumbnail */}
+                <div className="relative aspect-square bg-gradient-to-br from-muted to-accent flex items-center justify-center">
+                  <span className="text-3xl font-bold text-muted-foreground/60 select-none">
+                    {initials || <Package className="h-10 w-10" />}
+                  </span>
+                  {low && (
+                    <div className="absolute top-2 left-2 flex items-center gap-1 rounded-full bg-destructive px-2 py-0.5 text-[10px] font-semibold text-destructive-foreground shadow-sm">
+                      <AlertTriangle className="h-3 w-3" />
+                      Baixo
+                    </div>
+                  )}
+                  {cat && (
+                    <Badge variant="secondary" className="absolute top-2 right-2 text-[10px]">
+                      {cat.name}
                     </Badge>
+                  )}
+                  <div className="absolute bottom-2 right-2 rounded-md bg-background/90 backdrop-blur px-2 py-0.5 text-[11px] font-semibold text-foreground shadow-sm">
+                    {p.stock} un
                   </div>
                 </div>
-                <div className="flex gap-1 mt-3 pt-3 border-t border-border">
-                  <Button size="sm" variant="ghost" className="flex-1 gap-1" onClick={() => printLabel(p)}>
+
+                {/* Body */}
+                <div className="p-3 flex flex-col gap-1 flex-1">
+                  <h3 className="font-semibold text-sm text-foreground line-clamp-2 leading-tight min-h-[2.5rem]">
+                    {p.name}
+                  </h3>
+                  <p className="text-[10px] text-muted-foreground font-mono truncate">{p.sku}</p>
+                  <p className="text-base font-bold text-primary mt-1">{formatBRL(p.salePrice)}</p>
+                </div>
+
+                {/* Actions */}
+                <div className="flex border-t border-border">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="flex-1 rounded-none gap-1 text-xs h-9"
+                    onClick={() => printLabel(p)}
+                  >
                     <Printer className="h-3.5 w-3.5" /> Etiqueta
                   </Button>
-                  <Button size="sm" variant="ghost" onClick={() => openEdit(p)}>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="rounded-none border-l border-border h-9 px-3"
+                    onClick={() => openEdit(p)}
+                  >
                     <Pencil className="h-3.5 w-3.5" />
                   </Button>
-                  <Button size="sm" variant="ghost" onClick={() => remove(p.id)}>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="rounded-none border-l border-border h-9 px-3"
+                    onClick={() => remove(p.id)}
+                  >
                     <Trash2 className="h-3.5 w-3.5 text-destructive" />
                   </Button>
                 </div>
