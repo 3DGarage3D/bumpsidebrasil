@@ -81,6 +81,15 @@ const mapCustomer = (r: any): Customer => ({
   email: r.email ?? "",
   phone: r.phone ?? "",
   address: r.address ?? "",
+  cep: r.cep ?? "",
+  street: r.street ?? "",
+  number: r.number ?? "",
+  complement: r.complement ?? "",
+  neighborhood: r.neighborhood ?? "",
+  city: r.city ?? "",
+  state: r.state ?? "",
+  birthDate: r.birth_date ?? "",
+  notes: r.notes ?? "",
   createdAt: r.created_at,
 });
 const mapSupplier = (r: any): Supplier => ({
@@ -217,8 +226,17 @@ export const storage = {
   setCustomers: async (v: Customer[]) => {
     const { added, removed, updated } = diffById(cache.customers, v);
     for (const c of removed) await supabase.from("customers").delete().eq("id", c.id);
-    for (const c of added) await supabase.from("customers").insert({ id: c.id, name: c.name, document: c.document, email: c.email, phone: c.phone, address: c.address });
-    for (const c of updated) await supabase.from("customers").update({ name: c.name, document: c.document, email: c.email, phone: c.phone, address: c.address }).eq("id", c.id);
+    const toRow = (c: Customer) => ({
+      id: c.id, name: c.name, document: c.document, email: c.email, phone: c.phone, address: c.address,
+      cep: c.cep, street: c.street, number: c.number, complement: c.complement,
+      neighborhood: c.neighborhood, city: c.city, state: c.state,
+      birth_date: c.birthDate || null, notes: c.notes,
+    });
+    for (const c of added) await supabase.from("customers").insert(toRow(c));
+    for (const c of updated) {
+      const { id, ...rest } = toRow(c);
+      await supabase.from("customers").update(rest).eq("id", id);
+    }
     await loadCustomers();
   },
 
