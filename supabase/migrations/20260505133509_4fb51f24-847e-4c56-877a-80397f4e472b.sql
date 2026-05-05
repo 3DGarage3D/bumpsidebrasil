@@ -1,0 +1,10 @@
+ALTER TABLE public.customers
+  ADD COLUMN IF NOT EXISTS cep text DEFAULT '',
+  ADD COLUMN IF NOT EXISTS street text DEFAULT '',
+  ADD COLUMN IF NOT EXISTS number text DEFAULT '',
+  ADD COLUMN IF NOT EXISTS complement text DEFAULT '',
+  ADD COLUMN IF NOT EXISTS neighborhood text DEFAULT '',
+  ADD COLUMN IF NOT EXISTS city text DEFAULT '',
+  ADD COLUMN IF NOT EXISTS state text DEFAULT '',
+  ADD COLUMN IF NOT EXISTS birth_date date,
+  ADD COLUMN IF NOT EXISTS notes text DEFAULT '';

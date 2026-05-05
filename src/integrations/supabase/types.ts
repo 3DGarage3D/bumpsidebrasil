@@ -35,30 +35,57 @@ export type Database = {
       customers: {
         Row: {
           address: string | null
+          birth_date: string | null
+          cep: string | null
+          city: string | null
+          complement: string | null
           created_at: string
           document: string | null
           email: string | null
           id: string
           name: string
+          neighborhood: string | null
+          notes: string | null
+          number: string | null
           phone: string | null
+          state: string | null
+          street: string | null
         }
         Insert: {
           address?: string | null
+          birth_date?: string | null
+          cep?: string | null
+          city?: string | null
+          complement?: string | null
           created_at?: string
           document?: string | null
           email?: string | null
           id?: string
           name: string
+          neighborhood?: string | null
+          notes?: string | null
+          number?: string | null
           phone?: string | null
+          state?: string | null
+          street?: string | null
         }
         Update: {
           address?: string | null
+          birth_date?: string | null
+          cep?: string | null
+          city?: string | null
+          complement?: string | null
           created_at?: string
           document?: string | null
           email?: string | null
           id?: string
           name?: string
+          neighborhood?: string | null
+          notes?: string | null
+          number?: string | null
           phone?: string | null
+          state?: string | null
+          street?: string | null
         }
         Relationships: []
       }
