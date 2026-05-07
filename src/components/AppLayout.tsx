@@ -9,7 +9,7 @@ export function AppLayout() {
   const navigate = useNavigate();
   const logout = async () => {
     await supabase.auth.signOut();
-    navigate("/auth", { replace: true });
+    navigate("/", { replace: true });
   };
   return (
     <SidebarProvider>
@@ -18,7 +18,11 @@ export function AppLayout() {
         <div className="flex-1 flex flex-col min-w-0">
           <header className="sticky top-0 z-30 h-14 flex items-center gap-3 border-b border-border bg-background/80 backdrop-blur-sm px-4">
             <SidebarTrigger />
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-muted-foreground">Admin</span>
             <div className="flex-1" />
+            <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="gap-2">
+              Ver loja
+            </Button>
             <Button variant="ghost" size="sm" onClick={logout} className="gap-2">
               <LogOut className="h-4 w-4" /> Sair
             </Button>
