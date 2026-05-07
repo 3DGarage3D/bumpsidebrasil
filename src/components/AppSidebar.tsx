@@ -7,6 +7,7 @@ import {
   Tag,
   History,
   BarChart3,
+  MapPin,
 } from "lucide-react";
 import logo from "@/assets/logo-bumpside.png";
 import { NavLink } from "@/components/NavLink";
@@ -49,7 +50,7 @@ export function AppSidebar() {
       <SidebarMenuButton asChild tooltip={item.title}>
         <NavLink
           to={item.url}
-          end={item.url === "/"}
+          end={item.url === "/admin"}
           className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
           activeClassName="bg-sidebar-accent text-sidebar-accent-foreground"
         >
