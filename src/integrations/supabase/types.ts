@@ -220,6 +220,36 @@ export type Database = {
         }
         Relationships: []
       }
+      resellers: {
+        Row: {
+          city: string
+          created_at: string
+          id: string
+          instagram: string | null
+          name: string
+          state: string
+          whatsapp: string | null
+        }
+        Insert: {
+          city?: string
+          created_at?: string
+          id?: string
+          instagram?: string | null
+          name: string
+          state?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          id?: string
+          instagram?: string | null
+          name?: string
+          state?: string
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
       stock_movements: {
         Row: {
           created_at: string

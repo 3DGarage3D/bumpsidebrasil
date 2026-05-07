@@ -20,7 +20,7 @@ export default function Auth() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate("/", { replace: true });
+      if (data.session) navigate("/admin", { replace: true });
     });
   }, [navigate]);
 
@@ -29,7 +29,7 @@ export default function Auth() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) return toast.error(error.message);
-    navigate("/", { replace: true });
+    navigate("/admin", { replace: true });
   };
 
   const signUp = async () => {

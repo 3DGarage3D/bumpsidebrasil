@@ -16,6 +16,11 @@ import Categorias from "./pages/Categorias";
 import Fornecedores from "./pages/Fornecedores";
 import Movimentacao from "./pages/Movimentacao";
 import Relatorios from "./pages/Relatorios";
+import Revendedores from "./pages/Revendedores";
+import { StoreLayout } from "./components/StoreLayout";
+import Loja from "./pages/store/Loja";
+import Mapa from "./pages/store/Mapa";
+import Cadastro from "./pages/store/Cadastro";
 
 const queryClient = new QueryClient();
 
@@ -28,16 +33,26 @@ const App = () => (
         <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+
+          {/* Public store */}
+          <Route element={<StoreLayout />}>
+            <Route path="/" element={<Loja />} />
+            <Route path="/mapa" element={<Mapa />} />
+            <Route path="/cadastro" element={<Cadastro />} />
+          </Route>
+
+          {/* Admin */}
           <Route element={<ProtectedRoute />}>
             <Route element={<AppLayout />}>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/produtos" element={<Produtos />} />
-              <Route path="/pedidos" element={<Pedidos />} />
-              <Route path="/clientes" element={<Clientes />} />
-              <Route path="/categorias" element={<Categorias />} />
-              <Route path="/fornecedores" element={<Fornecedores />} />
-              <Route path="/movimentacao" element={<Movimentacao />} />
-              <Route path="/relatorios" element={<Relatorios />} />
+              <Route path="/admin" element={<Dashboard />} />
+              <Route path="/admin/produtos" element={<Produtos />} />
+              <Route path="/admin/pedidos" element={<Pedidos />} />
+              <Route path="/admin/clientes" element={<Clientes />} />
+              <Route path="/admin/revendedores" element={<Revendedores />} />
+              <Route path="/admin/categorias" element={<Categorias />} />
+              <Route path="/admin/fornecedores" element={<Fornecedores />} />
+              <Route path="/admin/movimentacao" element={<Movimentacao />} />
+              <Route path="/admin/relatorios" element={<Relatorios />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

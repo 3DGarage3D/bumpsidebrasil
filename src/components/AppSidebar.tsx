@@ -7,6 +7,7 @@ import {
   Tag,
   History,
   BarChart3,
+  MapPin,
 } from "lucide-react";
 import logo from "@/assets/logo-bumpside.png";
 import { NavLink } from "@/components/NavLink";
@@ -25,17 +26,18 @@ import {
 } from "@/components/ui/sidebar";
 
 const mainItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "Produtos", url: "/produtos", icon: Package },
-  { title: "Pedidos", url: "/pedidos", icon: ShoppingCart },
-  { title: "Clientes", url: "/clientes", icon: Users },
+  { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
+  { title: "Produtos", url: "/admin/produtos", icon: Package },
+  { title: "Pedidos", url: "/admin/pedidos", icon: ShoppingCart },
+  { title: "Clientes", url: "/admin/clientes", icon: Users },
 ];
 
 const manageItems = [
-  { title: "Categorias", url: "/categorias", icon: Tag },
-  { title: "Fornecedores", url: "/fornecedores", icon: Truck },
-  { title: "Movimentação", url: "/movimentacao", icon: History },
-  { title: "Relatórios", url: "/relatorios", icon: BarChart3 },
+  { title: "Categorias", url: "/admin/categorias", icon: Tag },
+  { title: "Fornecedores", url: "/admin/fornecedores", icon: Truck },
+  { title: "Revendedores", url: "/admin/revendedores", icon: MapPin },
+  { title: "Movimentação", url: "/admin/movimentacao", icon: History },
+  { title: "Relatórios", url: "/admin/relatorios", icon: BarChart3 },
 ];
 
 export function AppSidebar() {
@@ -48,7 +50,7 @@ export function AppSidebar() {
       <SidebarMenuButton asChild tooltip={item.title}>
         <NavLink
           to={item.url}
-          end={item.url === "/"}
+          end={item.url === "/admin"}
           className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
           activeClassName="bg-sidebar-accent text-sidebar-accent-foreground"
         >

@@ -179,7 +179,7 @@ export default function Dashboard() {
             {stats.lowStock.slice(0, 6).map((p) => (
               <Link
                 key={p.id}
-                to="/produtos"
+                to="/admin/produtos"
                 className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors"
               >
                 <div>
